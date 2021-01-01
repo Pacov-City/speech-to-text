@@ -20,7 +20,7 @@ function base2title(base){
 }
 
 async function populateSelect(){
-    const dataList = loadDataList()
+    const dataList = await loadDataList()
     const select = document.getElementById("data-select")
     dataList.forEach((elm)=>{
         //console.log(`Adding ${elm}`)
@@ -34,8 +34,8 @@ async function populateSelect(){
     select.value=""
     select.addEventListener("change",()=>{
         const base = select.value 
-        const mp3 = `data/${base}.mp3`
-        const data = `data/${base}.wav.transcript.json`
+        const mp3 = base2mp3Url(base)
+        const data = base2transcriptUrl(base)
         loadText(data)
         const player = document.getElementById("player")
         const source = document.getElementById("audio-src")
@@ -45,34 +45,6 @@ async function populateSelect(){
     })
 
 }
-
-
-// async function loadDataList(){
-//     const res = await fetch("data/data.json")
-//     const dataList = await res.json();
-//     const select = document.getElementById("data-select")
-//     dataList.forEach((elm)=>{
-//         //console.log(`Adding ${elm}`)
-//         const opt = document.createElement("option")
-//         opt.textContent = base2title(elm)
-//         opt.dataset.dataId = elm
-//         opt.value=elm 
-//         opt.selected = false
-//         select.appendChild(opt)
-//     })
-//     select.value=""
-//     select.addEventListener("change",()=>{
-//         const base = select.value 
-//         const mp3 = `data/${base}.mp3`
-//         const data = `data/${base}.wav.transcript.json`
-//         loadText(data)
-//         const player = document.getElementById("player")
-//         const source = document.getElementById("audio-src")
-//         source.src=mp3
-//         player.currentTime=0
-//         player.load()
-//     })
-// }
 
 async function updatePosition(){
     const position = player.currentTime
@@ -162,6 +134,3 @@ function fixWord(resultIdx,wordIdx){
     console.log(`fixing word:${resultIdx}/${wordIdx}`)
 }
 
-function wordId(resultIdx, wordIdx){
-    return `w-${resultIdx}-${wordIdx}`
-}
