@@ -23,8 +23,16 @@ async function loadDataList(){
     return await res.json();
 }
 
-
-
 function wordId(resultIdx, wordIdx){
     return `w-${resultIdx}-${wordIdx}`
 }
+
+function generateHash(base,second){
+    return `${base}:${second}`
+}
+
+function parseHash(hash){
+    const [_,base,second] = /^#?([^:]+):([0-9]+)$/.exec(hash)
+    return {base, second}
+}
+
